@@ -1,5 +1,8 @@
 .. _citation:
 
+Bibliography
+============
+
 .. [Feiertag:08] N. Feiertag, K. Richter, J. Nordlander, and J. Jonsson,
     "A Compositional Framework for End-to-End Path Delay Calculation
     of Automotive Systems under Different Path Semantics", In Workshop
