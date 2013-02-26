@@ -1,8 +1,31 @@
-from analysis import Task, Component, System
+# -*- coding: utf-8 -*-
+##
+## This file is part of End-to-End Latency Analysis Framework (EELAF).
+## Copyright (C) 2012, 2013 Jiri Kuncar <jiri.kuncar@gmail.com>.
+##
+## Analysis framework is free software; you can redistribute it and/or
+## modify it under the terms of the GNU General Public License as
+## published by the Free Software Foundation; either version 2 of the
+## License, or (at your option) any later version.
+##
+## Analysis framework is distributed in the hope that it will be useful, but
+## WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+## General Public License for more details.
+##
+## You should have received a copy of the GNU General Public License
+## along with Invenio; if not, write to the Free Software Foundation, Inc.,
+## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+
+"""Generator of random systems for EELAF."""
+
+from .__init__ import Task, Component, System
 import argparse
 import random
-from lxml import etree
 from lxml.builder import E
+
+## FIXME: improve balance of Component and Task utilizations
+
 
 def rand_system(minTasks=1,
                 maxTasks=1,
@@ -25,63 +48,62 @@ def rand_system(minTasks=1,
         xutils = [random.uniform(0.2, 0.8) for i in range(tasks)]
         sutils = sum(xutils)
         periods = [random.uniform(minTaskPeriod, maxTaskPeriod) for i in range(tasks)]
-        freq = map(lambda x: 1.0/x, periods)
+        freq = map(lambda x: 1.0 / x, periods)
         priorities = list(range(tasks))
         random.shuffle(priorities, random.random)
 
         rutils = [random.uniform(0.2, 0.8) for i in range(tasks)]
         srutils = sum(rutils)
-        utilizations = [(rutils[i]/srutils)*utils for i in range(tasks)]
+        utilizations = [(rutils[i] / srutils) * utils for i in range(tasks)]
         sutils = sum(utilizations)
-        ssutils = sum(map(lambda x:x/sutils, utilizations))
-        utilizations = map(lambda x: utils*x/sutils, utilizations)
+        utilizations = map(lambda x: utils * x / sutils, utilizations)
         print 'periods', periods
         print 'freq', freq
         print 'utils', utilizations
-        exectimes = map(lambda (a,b): a/b, zip(utilizations, freq))
-        sfreq = sum(freq)
+        exectimes = map(lambda (a, b): a / b, zip(utilizations, freq))
         print 'exec', exectimes
-        print 'utilization', sum(map(lambda c: exectimes[c]*freq[c], range(tasks)))
+        print 'utilization', sum(map(lambda c: exectimes[c] * freq[c],
+                                     range(tasks)))
         print '----------------'
 
         def resource(task):
             if random.random() <= resources:
-                ext = resolution*exectimes[task]
-                exr = float(random.randint(5, 20))*ext/100
-                sta = random.random()*(ext-exr)
+                ext = resolution * exectimes[task]
+                exr = float(random.randint(5, 20)) * ext / 100
+                sta = random.random() * (ext - exr)
                 return (E.Resources(
                     E.rname('R%d' % task),
                     E.start(str(sta)),
-                    E.end(str(sta+exr))
+                    E.end(str(sta + exr))
                 ),)
             return ()
 
         return [Task(
                 'comp%d:task%d' % (component, t),
-                resolution*periods[t],
+                resolution * periods[t],
                 priorities[t],
-                resolution*exectimes[t]) for t in range(tasks)]
+                resolution * exectimes[t]) for t in range(tasks)]
 
     components = random.randint(minComps, maxComps)
-    cperiods = [random.uniform(minCompPeriod, maxCompPeriod) for i in range(components)]
-    freq = map(lambda x:1.0/x, cperiods)
+    cperiods = [random.uniform(minCompPeriod, maxCompPeriod)
+                for i in range(components)]
+    freq = map(lambda x: 1.0 / x, cperiods)
     cpriorities = list(range(components))
     random.shuffle(cpriorities, random.random)
     utils = utilization
     rutils = [random.uniform(0.2, 0.8) for i in range(components)]
     srutils = sum(rutils)
-    utilizations = [(rutils[i]/srutils)*utils for i in range(components)]
+    utilizations = [(rutils[i] / srutils) * utils for i in range(components)]
     sutils = sum(utilizations)
     # sum(map(freq*budget)) = utilization
-    ssutils = sum(map(lambda x:x/sutils, utilizations))
-    utilizations = map(lambda x: utils*x/sutils, utilizations)
+    utilizations = map(lambda x: utils * x / sutils, utilizations)
     print 'periods', cperiods
     print 'freq', freq
     print 'utils', utilizations
-    budget = map(lambda (a,b): a/b, zip(utilizations, freq))
-    sfreq = sum(freq)
+    budget = map(lambda (a, b): a / b, zip(utilizations, freq))
     print 'budget', budget
-    print 'utilization', sum(map(lambda c: budget[c]*freq[c], range(components)))
+    print 'utilization', sum(map(lambda c: budget[c] * freq[c],
+                                 range(components)))
     print '----------------'
     system = System(
         scheduler=globalsched,
@@ -89,12 +111,12 @@ def rand_system(minTasks=1,
     for c in range(components):
         component = Component(
             "comp%d" % (c,),
-            resolution*cperiods[c],
+            resolution * cperiods[c],
             cpriorities[c],
-            resolution*budget[c],
+            resolution * budget[c],
             localsched,
             payback)
-        for t in rand_comp(c, utils*utilizations[c]):
+        for t in rand_comp(c, utils * utilizations[c]):
             component.addTask(t)
         system.addComponent(component)
 
@@ -103,7 +125,7 @@ def rand_system(minTasks=1,
 
 if __name__ == "__main__":
 
-    parser = argparse.ArgumentParser(description='System generator.')
+    parser = argparse.ArgumentParser(description='System generator for EELAF.')
     parser.add_argument('-P', '--payback',
                        action='store_true', default=False,
                        help="overrun calculation with or without payback")
@@ -139,7 +161,5 @@ if __name__ == "__main__":
     parser.add_argument('-Mtp', type=float, dest='maxTaskPeriod', default=0.120,
                        help='maximal task period')
 
-
     args = parser.parse_args()
     rand_system(**vars(args))
-
