@@ -36,7 +36,7 @@ instructions.
 
 ## Where are the docs?
 
-Go to https://readthedocs.org/projects/eelaf/ for a prebuilt version
+Go to https://eelaf.readthedocs.org/en/latest/ for a prebuilt version
 of the current documentation.  Otherwise build them yourself
 from the sphinx sources in the docs folder.
 
