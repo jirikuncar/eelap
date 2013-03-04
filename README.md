@@ -1,10 +1,10 @@
-# EELAF
+# EELAP
 
-End-to-End Latency Analysis Framework
+End-to-End Latency Analysis for ProCom
 
-## What is EELAF?
+## What is EELAP?
 
-EELAF is a framework for End-to-End latency analysis
+EELAP is a tool for End-to-End latency analysis
 of real-time systems. It's intended for getting started very quickly
 with analyzing hierarchical component systems using methods
 described in following papers:
@@ -30,7 +30,7 @@ for certain cases. Please be aware of _FIXME_ parts in the cource code.
 
 Numpy, lxml, and argparse are recommended for full functionality.
 `pip` or `easy_install` will install them for you if you do
-`pip install eelaf`. We encourage you to use a virtualenv.
+`pip install eelap`. We encourage you to use a virtualenv.
 Check the docs for complete installation and usage
 instructions.
 
@@ -43,6 +43,6 @@ from the sphinx sources in the docs folder.
 ## Where can I get help?
 
 Either use can contact authors or open a
-[ticket](https://github.com/jirikuncar/eelaf/issues).
+[ticket](https://github.com/jirikuncar/eelap/issues).
 
-Author: Jiri Kuncar <jiri.kuncar@gmail.com>, Rafia Inam <rafia.inam@mdh.se>
+Author: Jiri Kuncar <jiri.kuncar@gmail.com>, Rafia Inam <rafia.inam@mdh.se>, Mikael Sjodin <mikael.sjodin@mdh.se>
