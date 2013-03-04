@@ -48,7 +48,7 @@ In ProCom component model, the RVNs are implemented as servers
 This type of systems are called server-based systems or hierarchical
 systems :cite:`InamSEAA12`. The RVN-servers are executed within a two-level
 hierarchical scheduling implementation :cite:`InamHSF11`.
-To support communication \emph{between} RVNs (also called
+To support communication *between* RVNs (also called
 *inter-RVN communication*), two different strategies have been
 proposed :cite:`InamECRTS12`. The first strategy is called a
 *server-based communication*, implemented using a *communication server*.
