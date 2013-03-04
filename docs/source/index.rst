@@ -72,7 +72,7 @@ within a server and (2) then end-to-end semantics.
 
 Contributions
 ^^^^^^^^^^^^^
-We implement a tool *End-to-End Latency Analyzer for ProCom (EELAP)*
+We implement a tool *End-to-End Latency Analyzer for ProCom (EELAP)* :cite:`KuncarEELAP13`
 to evaluate timing behavior of two communication strategies in a multi-rate
 server-based real-time embedded components using end-to-end latencies
 (or delays). The tool computes end-to-end latencies using the following
