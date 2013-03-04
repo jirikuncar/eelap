@@ -6,6 +6,7 @@ install_requires = [
     'setuptools',
     'numpy',
     'lxml',
+    'sphinxcontrib-bibtex',
     # -*- Extra requirements: -*-
 ]
 
@@ -25,10 +26,10 @@ with open("README.md") as f:
 with open("CHANGES.txt") as f:
     CHANGES = f.read()
 
-setup(name='eelaf',
-      version='0.1',
+setup(name='eelap',
+      version='0.3',
       packages=find_packages(),
-      description=("End-to-End Latency Analysis Framework"),
+      description=("End-to-End Latency Analysis for ProCom"),
       long_description=README + '\n' + CHANGES,
       author='Jiri Kuncar',
       author_email='jiri.kuncar@gmail.com',
@@ -36,8 +37,8 @@ setup(name='eelaf',
       zip_safe=False,
       classifiers=classifiers,
       install_requires=install_requires,
-      keywords='latency analysis framework',
-      url='https://github.com/jirikuncar/eelaf/',
+      keywords='latency analysis ProCom',
+      url='https://github.com/jirikuncar/eelap/',
       license='gpl',
       entry_points=entry_points,
       )

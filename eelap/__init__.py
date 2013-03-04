@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 ##
-## This file is part of End-to-End Latency Analysis Framework (EELAF).
+## This file is part of End-to-End Latency Analysis for ProCom (EELAP).
 ## Copyright (C) 2012, 2013 Jiri Kuncar <jiri.kuncar@gmail.com>.
 ##
-## Analysis framework is free software; you can redistribute it and/or
+## EELAF is free software; you can redistribute it and/or
 ## modify it under the terms of the GNU General Public License as
 ## published by the Free Software Foundation; either version 2 of the
 ## License, or (at your option) any later version.
@@ -17,10 +17,11 @@
 ## along with Invenio; if not, write to the Free Software Foundation, Inc.,
 ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 
-"""End-to-End Latency Analysis Framework (EELAF)
+"""End-to-End Latency Analysis for ProCom (EELAP)
 
 .. moduleauthor:: Jiri Kuncar <jiri.kuncar@gmail.com>
 .. moduleauthor:: Rafia Inam <rafia.inam@mdh.se>
+.. moduleauthor:: Mikael Sjodin <mikael.sjodin@mdh.se>
 """
 
 from math import ceil
@@ -28,12 +29,12 @@ import copy
 from functools import partial
 from .helper import cached_property, memoize
 
-__version__ = '0.2'
-__release__ = '0.2-alpha'
+__version__ = '0.3'
+__release__ = '0.3-rc0'
 
 
 class System(object):
-    """Models a physical system with instances of :class:`~eelaf.Component`."""
+    """Models a physical system with instances of :class:`~eelap.Component`."""
 
     def __init__(self, scheduler='FPS', resolution=1000, components=None):
         self.components = []
@@ -56,10 +57,10 @@ class System(object):
         return dup
 
     def t(self, i):
-        """Get `i`-th :class:`~eelaf.Task` instance (:math:`t_i`).
+        """Get `i`-th :class:`~eelap.Task` instance (:math:`t_i`).
 
         :param i: The index of system task starting from 0.
-        :returns: Instance of :class:`~eelaf.Task`.
+        :returns: Instance of :class:`~eelap.Task`.
         """
         if self.path is None:
             return self.tasks[i]
@@ -67,7 +68,7 @@ class System(object):
             return self.tasks[self.path[i]]
 
     def addComponent(self, component):
-        """Adds new :class:`~eelaf.Component` instance to the system.
+        """Adds new :class:`~eelap.Component` instance to the system.
 
         It stores reference of the system to added component.
 
@@ -115,7 +116,7 @@ class System(object):
 
         The activation time travel occurs when the reader is
         activated before the writer (:math:`\\alpha_r(i)` is equivalent to
-        :meth:`~eelaf.Task.alpha` on :meth:`~eelaf.System.t`).
+        :meth:`~eelap.Task.alpha` on :meth:`~eelap.System.t`).
 
         .. math::
             att( t_w (i) \\rightarrow t_r (j)) = \\alpha_r (j) < \\alpha_w (i)
@@ -126,7 +127,7 @@ class System(object):
         :param j: Activation index of reader task.
 
         .. seealso::
-            [Feiertag:08]_ formula (3)
+            :cite:`EndEndPathDelay08` formula (3)
         """
         return self.t(r).alpha(j) < self.t(w).alpha(i)
 
@@ -145,7 +146,7 @@ class System(object):
         :param j: Activation index of reader task.
 
         .. seealso::
-            [Feiertag:08]_ formula (4) """
+            :cite:`EndEndPathDelay08` formula (4) """
         return self.t(r).alpha(j) < self.t(w).alpha(i) + self.t(w).delta(i)
 
     @memoize
@@ -163,7 +164,7 @@ class System(object):
         :param j: Activation index of reader task.
 
         .. seealso::
-            [Feiertag:08]_ formula (5)
+            :cite:`EndEndPathDelay08` formula (5)
         """
         i, j = i, j
         return self.t(r).priority < self.t(w).priority
@@ -186,7 +187,7 @@ class System(object):
         :param j: Activation index of reader task.
 
         .. seealso::
-            [Feiertag:08]_ formula (6)
+            :cite:`EndEndPathDelay08` formula (6)
         """
         return (not self.att(w, i, r, j)) and \
                (not self.crit(w, i, r, j) or self.wait(w, i, r, j))
@@ -208,7 +209,7 @@ class System(object):
         :param j: Activation index of reader task.
 
         .. seealso::
-            [Feiertag:08]_ formula (7).
+            :cite:`EndEndPathDelay08` formula (7).
         """
         return self.forw(w, i, r, j) and \
                not self.forw(w, i + 1, r, j)
@@ -230,7 +231,7 @@ class System(object):
             return True
 
         .. seealso::
-            [Feiertag:08]_ formula (8).
+            :cite:`EndEndPathDelay08` formula (8).
         """
         for w, path_i in enumerate(path[:-1]):
             if not self.reach(w, path_i, w + 1, path[w + 1]):
@@ -244,7 +245,7 @@ class System(object):
             \\Delta(path) = \\alpha_n(path_n) + \\delta_n(path_n) - \\alpha_1(path_1)
 
         .. seealso::
-            [Feiertag:08]_ formula (2).
+            :cite:`EndEndPathDelay08` formula (2).
         """
         return self.t(-1).alpha(path[-1]) + self.t(-1).delta(path[-1]) \
                - self.t(0).alpha(path[0])
@@ -269,14 +270,14 @@ class System(object):
             return out
 
         .. seealso::
-            [Feiertag:08]_ formula (9).
+            :cite:`EndEndPathDelay08` formula (9).
         """
         #return [l for l in possible_paths if self.reach_path(l)]
         return filter(self.reach_path, possible_paths)
 
     @memoize
     def delta_LL(self, possible_paths):
-        """Returns maximum latency over all reachable paths (:meth:`~eelaf.System.TP_reach`).
+        """Returns maximum latency over all reachable paths (:meth:`~eelap.System.TP_reach`).
 
         .. math::
             \\Delta^{LL}(possible_paths) = max\\{\\Delta(path) \\mid path \\in \\mathbb{TP}^{reach}\\}
@@ -288,7 +289,7 @@ class System(object):
             return max(map(delta_path, TP_reach(possible_paths)))
 
         .. seealso::
-            [Feiertag:08]_ formula (10).
+            :cite:`EndEndPathDelay08` formula (10).
         """
         #return max([self.delta_path(p) for p in self.TP_reach(possible_paths)])
         return max(map(self.delta_path, self.TP_reach(possible_paths)))
@@ -325,7 +326,7 @@ class System(object):
             return out
 
         .. seealso::
-            [Feiertag:08]_ formula (11).
+            :cite:`EndEndPathDelay08` formula (11).
         """
 
         tp_reach = self.TP_reach(possible_paths)
@@ -344,7 +345,7 @@ class System(object):
             \\Delta^{LF}(p) = max\\{ \\Delta(\\vec(tp)) \\mid \\vec(tp) \\in \\mathbb{TP}^{first} \\}
 
         .. seealso::
-            [Feiertag:08]_ formula (12).
+            :cite:`EndEndPathDelay08` formula (12).
         """
         out = [self.delta_path(p) for p in self.TP_first(ls)]
         return max(out) if out else 9999
@@ -354,7 +355,7 @@ class System(object):
         "last-to-x" path.
 
         .. seealso::
-            [Feiertag:08]_ formula (13).
+            :cite:`EndEndPathDelay08` formula (13).
         """
         def last_to_x(x):
             return len(filter(lambda p: p[0] == x, tp_reach)) > 0
@@ -362,7 +363,7 @@ class System(object):
         return max(out) if out else 0
 
     def delta_FL_path(self, path, tp_reach):
-        """Calculate First-to-Last path delay (uses :meth:`~eelaf.System.pred`).
+        """Calculate First-to-Last path delay (uses :meth:`~eelap.System.pred`).
 
         .. math::
             \\Delta^{FL}(\\vec{tp}) = \\Delta^{LL}(\\vec{tp}) + \\alpha_1(tp_1) - \\alpha_1(pred(\\vec(tp)))
@@ -373,7 +374,7 @@ class System(object):
         :fixme: remove dependency on `tp_reach` parameter.
 
         .. seealso::
-            [Feiertag:08]_ formula (14).
+            :cite:`EndEndPathDelay08` formula (14).
         """
         return self.delta_LL_path(path) + self.t(0).alpha(path[0]) - \
             self.t(0).alpha(self.pred(path, tp_reach))
@@ -382,7 +383,7 @@ class System(object):
         """Find maximum of First-to-Last path delays.
 
         .. seealso::
-            [Feiertag:08]_ formula (15).
+            :cite:`EndEndPathDelay08` formula (15).
         """
         tp_reach = self.TP_reach(ls)
         out = [self.delta_FL_path(p, tp_reach) for p in tp_reach]
@@ -400,7 +401,7 @@ class System(object):
         :fixme: remove dependency on `tp_reach` parameter.
 
         .. seealso::
-            [Feiertag:08]_ formula (16).
+            :cite:`EndEndPathDelay08` formula (16).
         """
         return self.delta_LF((path, )) + self.t(0).alpha(path[0]) - \
             self.t(0).alpha(self.pred(path, tp_reach))
@@ -409,7 +410,7 @@ class System(object):
         """Find maximum of First-to-First path delays.
 
         .. seealso::
-            [Feiertag:08]_ formula (17).
+            :cite:`EndEndPathDelay08` formula (17).
         """
         tp_reach = self.TP_reach(ls)
         out = [self.delta_FF_path(p, tp_reach) for p in self.TP_first(ls)]
@@ -437,7 +438,7 @@ class System(object):
             return True
 
         .. seealso::
-            [Inam2548:2011]_ formula (8).
+            :cite:`InamOSPERT11` formula (8).
         """
         for C in self.components:
             for t in range(int(C.period + 0.5)):
@@ -549,17 +550,17 @@ class Component(object):
 
     @property
     def P(self):
-        """Alias for :class:`~eelaf.Component` period."""
+        """Alias for :class:`~eelap.Component` period."""
         return self.period
 
     @property
     def Q(self):
-        """Alias for :class:`~eelaf.Component` budget."""
+        """Alias for :class:`~eelap.Component` budget."""
         return self.budget
 
     @property
     def deadline(self):
-        """The function returns :class:`~eelaf.Component` deadline.
+        """The function returns :class:`~eelap.Component` deadline.
 
         Currently the `self.deadline==self.period`.
         """
@@ -571,7 +572,7 @@ class Component(object):
 
     @property
     def freq(self):
-        """The function calculates :class:`~eelaf.Component` frequency."""
+        """The function calculates :class:`~eelap.Component` frequency."""
         return 1.0 / self.period
 
     def f1(self, t):
@@ -580,7 +581,7 @@ class Component(object):
         :param t: time
 
         .. seealso::
-            [Inam2548:2011]_ formula (5).
+            :cite:`InamOSPERT11` formula (5).
         """
         k = max(ceil(float(t - (self.P - self.Q) - self.X) / self.P), 1)
         w_k = (k + 1) * self.P - 2 * self.Q + self.X
@@ -595,7 +596,7 @@ class Component(object):
         :param t: time
 
         .. seealso::
-            [Inam2548:2011]_ formula (6).
+            :cite:`InamOSPERT11` formula (6).
         """
         k = max(ceil(float(t - (self.P - self.Q)) / self.P), 1)
         Vk_min = 2 * self.P - 2 * self.Q
@@ -613,14 +614,14 @@ class Component(object):
         """Supply Bound Function.
 
         If `payback` is `True` then this method depends on
-        :meth:`~eelaf.Component.f1` and :meth:`~eelaf.Component.f2`::
+        :meth:`~eelap.Component.f1` and :meth:`~eelap.Component.f2`::
 
             return max(min(f1(t), f2(t)), 0)
 
         :param t: time
 
         .. seealso::
-            [Inam2548:2011]_ formula (3) and (4).
+            :cite:`InamOSPERT11` formula (3) and (4).
 
         """
 
@@ -645,27 +646,27 @@ class Component(object):
 
     @cached_property
     def HPS(self):
-        """Set of subsystems of :class:`~eelaf.System` `S` with priority higher
+        """Set of subsystems of :class:`~eelap.System` `S` with priority higher
         than itself (:math:`S_s`).
 
         .. math::
             HSP(s) = \\{ S_k \\in S \\mid P(k) > P(s) \\}
 
         .. seealso::
-            Used in formula (9) in [Inam2548:2011]_.
+            Used in formula (9) in :cite:`InamOSPERT11`.
         """
         return [C for C in self.system.components if C.P > self.P]
 
     @cached_property
     def LPS(self):
-        """Set of subsystems of :class:`~eelaf.System` `S` with priority lower
+        """Set of subsystems of :class:`~eelap.System` `S` with priority lower
         than itself (:math:`S_s`).
 
         .. math::
             LSP(s) = \\{ S_k \\in S \\mid P(k) < P(s) \\}
 
         .. seealso::
-            Used in formula (10) in [Inam2548:2011]_.
+            Used in formula (10) in :cite:`InamOSPERT11`.
         """
         return [C for C in self.system.components if C.P < self.P]
 
@@ -678,7 +679,7 @@ class Component(object):
             Bl(s) = max\\{ X(k) \\mid S_k \\in LPS(s) \\}
 
         .. seealso::
-            [Inam2548:2011]_ formula (10).
+            :cite:`InamOSPERT11` formula (10).
         """
         out = [C.X for C in self.LPS]
         return max(out) if len(out) else 0
@@ -687,7 +688,7 @@ class Component(object):
         """Request Bound Function
 
         .. seealso::
-            [Inam2548:2011]_ formula (9) and (11).
+            :cite:`InamOSPERT11` formula (9) and (11).
         """
         if self.payback:
             out = (self.Q + self.X + self.Bl) + sum(
@@ -700,7 +701,7 @@ class Component(object):
 
     @cached_property
     def schedulability(self):
-        """:class:`~eelaf.Component` schedulability condition.
+        """:class:`~eelap.Component` schedulability condition.
 
         .. code-block:: none
 
@@ -719,7 +720,7 @@ class Component(object):
             return True
 
         .. seealso::
-            [Inam2548:2011]_ formula (13).
+            :cite:`InamOSPERT11` formula (13).
         """
         for task in self.tasks:
             for i in range(1, task.period + 1):
@@ -732,7 +733,7 @@ class Component(object):
 
     @property
     def utilization(self):
-        """Returns :class:`~eelaf.Component` utilization as product of its
+        """Returns :class:`~eelap.Component` utilization as product of its
         frequency and budget.
         """
         return self.freq * self.budget
@@ -829,7 +830,7 @@ class Task(object):
         :param t: Time limit for execution requests.
 
         .. seealso::
-            [Inam2548:2011]_ formula (2).
+            :cite:`InamOSPERT11` formula (2).
         """
         return self.exetime + self.blocking_time + sum([T.exetime * ceil(
             float(t) / T.period) for T in self.HB])
@@ -894,7 +895,7 @@ class Task(object):
             In our case we always return task response time.
 
         .. seealso::
-            :func:`~eelaf.Task.response_time`
+            :func:`~eelap.Task.response_time`
         """
         i = i
         return self.response_time

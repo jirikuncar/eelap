@@ -1,29 +1,29 @@
 .. _api:
 
 API
-===
+---
 
 This part of the documentation covers all the interfaces of End-to-End
-Analyzer Framework.
+Analyzer for ProCom.
 
-Task Object
-------------------
+Task
+^^^^
 
-.. autoclass:: eelaf.Task
+.. autoclass:: eelap.Task
    :members:
    :inherited-members:
 
-Component (Subsystem) Object
-----------------------------------
+Component (Subsystem)
+^^^^^^^^^^^^^^^^^^^^^
 
-.. autoclass:: eelaf.Component
+.. autoclass:: eelap.Component
    :members:
    :inherited-members:
 
-System Object
-------------------
+System
+^^^^^^
 
-.. autoclass:: eelaf.System
+.. autoclass:: eelap.System
    :members:
    :inherited-members:
 

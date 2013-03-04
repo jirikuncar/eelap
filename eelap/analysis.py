@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 ##
-## This file is part of End-to-End Latency Analysis Framework (EELAF).
+## This file is part of End-to-End Latency Analysis for ProCom (EELAP).
 ## Copyright (C) 2012, 2013 Jiri Kuncar <jiri.kuncar@gmail.com>.
 ##
-## Analysis framework is free software; you can redistribute it and/or
+## EELAP is free software; you can redistribute it and/or
 ## modify it under the terms of the GNU General Public License as
 ## published by the Free Software Foundation; either version 2 of the
 ## License, or (at your option) any later version.
@@ -17,7 +17,7 @@
 ## along with Invenio; if not, write to the Free Software Foundation, Inc.,
 ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 
-"""Example analysis of EELAF system."""
+"""Example analysis of EELAP system."""
 
 import copy
 import argparse
@@ -81,7 +81,7 @@ def reachability(s, verbose=2):
 
 if __name__ == "__main__":
 
-    parser = argparse.ArgumentParser(description='System generator.')
+    parser = argparse.ArgumentParser(description='EELAP system analysis.')
     parser.add_argument('-t', '--time', metavar='time', default=1000, type=int,
                         help="time interval for analysis")
     parser.add_argument('-p', '--payback',

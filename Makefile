@@ -7,40 +7,40 @@ endif
 docs: bin/sphinx-build
 	SPHINXBUILD=../bin/sphinx-build $(MAKE) -C docs html $^
 
-build:	
+build:
 	virtualenv $(VTENV_OPTS) .
 	bin/python setup.py develop
 
 test: bin/nosetests
-	bin/nosetests -s eelaf
+	bin/nosetests -s eelap
 
 coverage: bin/coverage bin/nosetests
-	bin/nosetests --with-coverage --cover-html --cover-html-dir=html --cover-package=eelaf
+	bin/nosetests --with-coverage --cover-html --cover-html-dir=html --cover-package=eelap
 	bin/coverage html
 
 pylint:	bin/pylint
-	bin/pylint -i y eelaf
+	bin/pylint -i y eelap
 
 flake8:	bin/flake8
-	bin/flake8 --max-complexity 12 eelaf
+	bin/flake8 --max-complexity 12 eelap
 
 pep8:	bin/pep8
-	bin/pep8 eelaf
+	bin/pep8 eelap
 
 pyflakes:	bin/pyflakes
-	bin/pyflakes eelaf
+	bin/pyflakes eelap
 
 templer: bin/python
 	# Hack to make believe templer that the current folder is the home folder
 	# so that it reads the local .zopeskel file with the defaults
-	export OLDHOME="${HOME}"; export HOME="${PWD}"; ./bin/templer package eelaf; export HOME="${OLDHOME}"
+	export OLDHOME="${HOME}"; export HOME="${PWD}"; ./bin/templer package eelap; export HOME="${OLDHOME}"
 
 diff: bin/python
 	# Show the difference between the current package and the regenerated one
-	colordiff -c -r eelaf .|less -r
+	colordiff -c -r eelap .|less -r
 
 sloccount:	bin/python
-	sloccount eelaf
+	sloccount eelap
 
 dryrelease:	bin/mkrelease
 	bin/mkrelease --no-commit --no-tag --dry-run -d pypi

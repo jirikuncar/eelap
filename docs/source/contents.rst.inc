@@ -27,11 +27,7 @@ Design notes, legal information and changelog are here for the interested.
    :maxdepth: 2
 
    license
-   citation
 
-Indices and tables
-------------------
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+.. bibliography:: refs.bib
+   :style: unsrt
+   :all:

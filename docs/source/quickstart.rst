@@ -4,7 +4,7 @@ Quickstart
 ==========
 
 Eager to get started? This page gives a good introduction how the End-to-End
-Latency Analysis Framework works and how you can benefit from it. It assumes
+Latency Analysis for ProCom works and how you can benefit from it. It assumes
 you already have it installed. If you do not, head over to the
 :ref:`installation` section.
 
@@ -17,12 +17,12 @@ possible exectution paths of tasks in all system components. All latency types
 are calculated on specified data flow path that contains identifiers of tasks
 in analyzed system.
 
-Our generator :meth:`~analysis.System.generate_paths` returns tuples with
+Our generator :meth:`~eelap.System.generate_paths` returns tuples with
 activation indexes of tasks accordingly to the analyzed execution path.
 The algorithm starts with finding closest activation indexes of the first
 task in path for defined interval. Following pseudocode shows simplified
-version of our algorithm using methods :meth:`~analysis.Task.alpha` and
-:meth:`~analysis.Task.ialpha` defined on :class:`~analysis.Task`.
+version of our algorithm using methods :meth:`~eelap.Task.alpha` and
+:meth:`~eelap.Task.ialpha` defined on :class:`~eelap.Task`.
 
 .. code-block:: none
    :linenos:
