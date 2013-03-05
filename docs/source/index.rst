@@ -7,7 +7,7 @@ End-to-End Latency Analysis for ProCom
 
 This report presents an analysis tool *End-to-End Latency Analyzer for ProCom (EELAP)*
 developed to compute different end-to-end latency semantics for
-multi-rate components of real-time embedded systems. Procom component
+multi-rate components of real-time embedded systems. ProCom component
 technology implements executable reusable real-time components called
 *Runnalbe Virtual Nodes (RVNs)* and supports two different communication
 strategies for inter-RVN communication. The tool is developed to evaluate
@@ -41,7 +41,7 @@ message-chains among those components. In a communication chain, different
 executable components (or tasks) are activated at different periods.
 Such system is called a *multi-rate system* :cite:`EndEndPathDelay08`.
 
-Communication Strategies among Procom components
+Communication Strategies among ProCom Components
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 In ProCom component model, the RVNs are implemented as servers
 (called RVN-server) and the tasks are executed within the servers.

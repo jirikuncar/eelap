@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 ##
-## This file is part of End-to-End Latency Analysis for ProCom (EELAP).
+## This file is part of End-to-End Latency Analyzer for ProCom (EELAP).
 ## Copyright (C) 2012, 2013 Jiri Kuncar <jiri.kuncar@gmail.com>.
 ##
-## EELAF is free software; you can redistribute it and/or
+## EELAP is free software; you can redistribute it and/or
 ## modify it under the terms of the GNU General Public License as
 ## published by the Free Software Foundation; either version 2 of the
 ## License, or (at your option) any later version.
 ##
-## Analysis framework is distributed in the hope that it will be useful, but
+## EELAP is distributed in the hope that it will be useful, but
 ## WITHOUT ANY WARRANTY; without even the implied warranty of
 ## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 ## General Public License for more details.
@@ -17,7 +17,7 @@
 ## along with Invenio; if not, write to the Free Software Foundation, Inc.,
 ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 
-"""End-to-End Latency Analysis for ProCom (EELAP)
+"""End-to-End Latency Analyzer for ProCom (EELAP)
 
 .. moduleauthor:: Jiri Kuncar <jiri.kuncar@gmail.com>
 .. moduleauthor:: Rafia Inam <rafia.inam@mdh.se>
@@ -30,7 +30,7 @@ from functools import partial
 from .helper import cached_property, memoize
 
 __version__ = '0.3'
-__release__ = '0.3-rc0'
+__release__ = '0.3.0'
 
 
 class System(object):
@@ -216,7 +216,7 @@ class System(object):
 
     @memoize
     def reach_path(self, path):
-        """Check `path` rechability.
+        """Check `path` reachability.
 
         .. code-block:: none
 
@@ -477,7 +477,7 @@ class System(object):
                     next_task <- tasks_in_path[0]  # next task in path
                     j <- next_task.ialpha(time)  # closest activation index
                     new_start <- next_tasks.alpha(j)  # closest activation time
-                    # find posible paths for next task in path from new start.
+                    # find possible paths for next task in path from new start.
                     for all path in generate_paths(new_start, stop, tasks_in_path):
                         # join current activation index with found tuple
                         paths.append( path.prepend(i) )

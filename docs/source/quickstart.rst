@@ -1,10 +1,10 @@
 .. _quickstart:
 
-Quickstart
-==========
+Quick start
+===========
 
 Eager to get started? This page gives a good introduction how the End-to-End
-Latency Analysis for ProCom works and how you can benefit from it. It assumes
+Latency Analyzer for ProCom works and how you can benefit from it. It assumes
 you already have it installed. If you do not, head over to the
 :ref:`installation` section.
 
@@ -12,15 +12,15 @@ you already have it installed. If you do not, head over to the
 Finding possible execution paths
 ------------------------------------
 
-The whole simulation is dependend on quick and effective algorithm for finding
-possible exectution paths of tasks in all system components. All latency types
+The whole simulation is dependant on quick and effective algorithm for finding
+possible execution paths of tasks in all system components. All latency types
 are calculated on specified data flow path that contains identifiers of tasks
 in analyzed system.
 
 Our generator :meth:`~eelap.System.generate_paths` returns tuples with
 activation indexes of tasks accordingly to the analyzed execution path.
 The algorithm starts with finding closest activation indexes of the first
-task in path for defined interval. Following pseudocode shows simplified
+task in path for defined interval. Following pseudo-code shows simplified
 version of our algorithm using methods :meth:`~eelap.Task.alpha` and
 :meth:`~eelap.Task.ialpha` defined on :class:`~eelap.Task`.
 
@@ -37,7 +37,7 @@ version of our algorithm using methods :meth:`~eelap.Task.alpha` and
                 next_task <- tasks_in_path[0]  # next task in path
                 j <- next_task.ialpha(time)  # closest activation index
                 new_start <- next_tasks.alpha(j)  # closest activation time
-                # find posible paths for next task in path from new start.
+                # find possible paths for next task in path from new start.
                 for all path in generate_paths(new_start, stop, tasks_in_path):
                     # join current activation index with found tuple
                     paths.append( path.prepend(i) )

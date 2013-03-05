@@ -7,7 +7,7 @@ Source code is distributed under following GNU/GPLv2 licence.
 
 .. code-block:: none
 
-    End-to-End Latency Analysis for ProCom (EELAP) is free software;
+    End-to-End Latency Analyzer for ProCom (EELAP) is free software;
     you can redistribute it and/or
     modify it under the terms of the GNU General Public License as
     published by the Free Software Foundation; either version 2 of the

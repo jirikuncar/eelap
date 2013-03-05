@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 ##
-## This file is part of End-to-End Latency Analysis for ProCom (EELAP).
+## This file is part of End-to-End Latency Analyzer for ProCom (EELAP).
 ## Copyright (C) 2012, 2013 Jiri Kuncar <jiri.kuncar@gmail.com>.
 ##
 ## EELAP is free software; you can redistribute it and/or
@@ -8,7 +8,7 @@
 ## published by the Free Software Foundation; either version 2 of the
 ## License, or (at your option) any later version.
 ##
-## Analysis framework is distributed in the hope that it will be useful, but
+## EELAP is distributed in the hope that it will be useful, but
 ## WITHOUT ANY WARRANTY; without even the implied warranty of
 ## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 ## General Public License for more details.

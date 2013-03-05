@@ -11,9 +11,7 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-import sys, os
-sys.path.append("/Users/jirka/programing/python/delsim")
-sys.path.append(os.path.abspath('_themes'))
+#import sys
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -52,7 +50,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'End-to-End Latency Analysis Framework'
+project = u'End-to-End Latency Analyzer Framework'
 copyright = u'2012-2013, Jiri Kuncar <jiri.kuncar@gmail.com>, Rafia Inam <rafia.inam@mdh.se>, and Mikael Sjodin <mikael.sjodin@mdh.se>'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -177,7 +175,7 @@ html_static_path = ['_static']
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'End-to-EndLatencyAnalysisFrameworkdoc'
+htmlhelp_basename = 'End-to-EndLatencyAnalyzerFrameworkdoc'
 
 
 # -- Options for LaTeX output --------------------------------------------------
@@ -197,8 +195,8 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'End-to-EndLatencyAnalysisForProCom.tex', u'End-to-End Latency Analysis for ProCom',
-   u'Jiri Kuncar \\textless{}jiri.kuncar@gmail.com\\textgreater{}\\\\Rafia Inam \\textless{}rafia.inam@mdh.se\\textgreater{}\\\\Mikael Sjodin \\textless{}mikael.sjodin@mdh.se\\textgreater{}',
+  ('index', 'End-to-EndLatencyAnalyzerForProCom.tex', u'End-to-End Latency Analyzer for ProCom - EELAP',
+   u"Ji\\v{r}\\'{i} Kun\\v{c}ar \\textless{}jiri.kuncar@gmail.com\\textgreater{}\\\\Rafia Inam \\textless{}rafia.inam@mdh.se\\textgreater{}\\\\Mikael Sj{\\\"{o}}din \\textless{}mikael.sjodin@mdh.se\\textgreater{}",
    'manual'),
 ]
 
@@ -228,7 +226,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 #man_pages = [
-#    ('index', 'end-to-endlatencyanalyzer', u'End-to-End Latency Analysis Framework',
+#    ('index', 'end-to-endlatencyanalyzer', u'End-to-End Latency Analyzer Framework',
 #     [u'Jiri Kuncar <jiri.kuncar@gmail.com>'], 1)
 #]
 
