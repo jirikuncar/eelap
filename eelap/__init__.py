@@ -46,7 +46,8 @@ class System(object):
         self.path = None
 
     def __str__(self):
-        return "<System '%s' \n\t%s\n>" % (self.scheduler,
+        return '<system scheduler="%s" resolution="%s">\n\t%s\n</system>' % (
+            self.scheduler, self.resolution,
             '\n\t'.join(map(str, self.components)))
 
     def __deepcopy__(self, memo):
@@ -211,8 +212,7 @@ class System(object):
         .. seealso::
             :cite:`EndEndPathDelay08` formula (7).
         """
-        return self.forw(w, i, r, j) and \
-               not self.forw(w, i + 1, r, j)
+        return self.forw(w, i, r, j) and not self.forw(w, i + 1, r, j)
 
     @memoize
     def reach_path(self, path):
@@ -248,7 +248,7 @@ class System(object):
             :cite:`EndEndPathDelay08` formula (2).
         """
         return self.t(-1).alpha(path[-1]) + self.t(-1).delta(path[-1]) \
-               - self.t(0).alpha(path[0])
+            - self.t(0).alpha(path[0])
 
     def delta_LL_path(self, path):
         """Calculate Last-to-Last `path` delay using :meth:`~System.delta_path`."""
@@ -335,7 +335,7 @@ class System(object):
             return path2[0] == path[0] and path2[-1] < path[-1]
 
         return tuple(tp for tp in tp_reach
-            if not any(map(partial(earlier, tp), tp_reach)))
+                     if not any(map(partial(earlier, tp), tp_reach)))
 
     @memoize
     def delta_LF(self, ls):
@@ -520,9 +520,9 @@ class Component(object):
         self.system = None
 
     def __str__(self):
-        return "<Component %s, period=%f, priority=%d, budget=%f, \n\t\t%s\n\t>" % \
+        return '<component name="%s" period="%f" priority="%d" budget="%f">\n\t\t%s\n\t</component>' % \
             (self.name, self.period, self.priority, self.budget,
-            '\n\t\t'.join(map(str, self.tasks)))
+             '\n\t\t'.join(map(str, self.tasks)))
 
     def __deepcopy__(self, memo):
         dup = Component(
@@ -751,7 +751,7 @@ class Task(object):
         self.start = 0
 
     def __repr__(self):
-        return "<Task %s, priority=%d, exetime=%f, period=%f>" % \
+        return '<task name="%s" priority="%d" exetime="%f" period="%f" />' % \
             (self.name, self.priority, self.exetime, self.period)
 
     def __str__(self):
@@ -800,8 +800,7 @@ class Task(object):
             HB(s) = \\{ T_k \\in C \\mid P(k) > P(s) \\}
 
         """
-        return [T for T in self.component.tasks \
-            if T.priority > self.priority]
+        return [T for T in self.component.tasks if T.priority > self.priority]
 
     @cached_property
     def blocking_time(self):
@@ -852,7 +851,7 @@ class Task(object):
     def status(self, time):
         """Returns textual representation of task status at given `time`."""
         return 'R' if (time - self.start) % self.period < self.response_time \
-                else '_'
+            else '_'
 
     def plan(self, time):
         """Returns True if the task should be scheduled at given `time`."""

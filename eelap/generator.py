@@ -19,9 +19,10 @@
 
 """Generator of random systems for EELAP."""
 
-from .__init__ import Task, Component, System
 import argparse
 import random
+import sys
+from eelap import Task, Component, System
 from lxml.builder import E
 
 ## FIXME: improve balance of Component and Task utilizations
@@ -41,6 +42,7 @@ def rand_system(minTasks=1,
                 globalsched='FPS',
                 localsched='EDF',
                 payback=False,
+                verbose=False,
                 **kargs):
 
     def rand_comp(component, utils):
@@ -57,26 +59,18 @@ def rand_system(minTasks=1,
         utilizations = [(rutils[i] / srutils) * utils for i in range(tasks)]
         sutils = sum(utilizations)
         utilizations = map(lambda x: utils * x / sutils, utilizations)
-        print 'periods', periods
-        print 'freq', freq
-        print 'utils', utilizations
         exectimes = map(lambda (a, b): a / b, zip(utilizations, freq))
-        print 'exec', exectimes
-        print 'utilization', sum(map(lambda c: exectimes[c] * freq[c],
-                                     range(tasks)))
-        print '----------------'
 
-        def resource(task):
-            if random.random() <= resources:
-                ext = resolution * exectimes[task]
-                exr = float(random.randint(5, 20)) * ext / 100
-                sta = random.random() * (ext - exr)
-                return (E.Resources(
-                    E.rname('R%d' % task),
-                    E.start(str(sta)),
-                    E.end(str(sta + exr))
-                ),)
-            return ()
+        if verbose:
+            print 'Component'
+            print '================'
+            print 'periods', periods
+            print 'freq', freq
+            print 'utils', utilizations
+            print 'exec', exectimes
+            print 'utilization', sum(map(lambda c: exectimes[c] * freq[c],
+                                         range(tasks)))
+            print '----------------'
 
         return [Task(
                 'comp%d:task%d' % (component, t),
@@ -97,14 +91,19 @@ def rand_system(minTasks=1,
     sutils = sum(utilizations)
     # sum(map(freq*budget)) = utilization
     utilizations = map(lambda x: utils * x / sutils, utilizations)
-    print 'periods', cperiods
-    print 'freq', freq
-    print 'utils', utilizations
     budget = map(lambda (a, b): a / b, zip(utilizations, freq))
-    print 'budget', budget
-    print 'utilization', sum(map(lambda c: budget[c] * freq[c],
-                                 range(components)))
-    print '----------------'
+
+    if verbose:
+        print 'System'
+        print '================'
+        print 'periods:', cperiods
+        print 'freq:', freq
+        print 'utils:', utilizations
+        print 'budget:', budget
+        print 'utilization:', sum(map(lambda c: budget[c] * freq[c],
+                                      range(components)))
+        print '----------------'
+
     system = System(
         scheduler=globalsched,
         resolution=resolution)
@@ -125,41 +124,65 @@ def rand_system(minTasks=1,
 
 if __name__ == "__main__":
 
-    parser = argparse.ArgumentParser(description='System generator for EELAP.')
+    parser = argparse.ArgumentParser(description='System generator for EELAP.',
+                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument('-v', '--verbose',
+                        action='store_true', default=False,
+                        help="verbose output")
     parser.add_argument('-P', '--payback',
-                       action='store_true', default=False,
-                       help="overrun calculation with or without payback")
-    parser.add_argument('-p', '--prefix', nargs='?', dest='prefix', default='component',
-                       help='filename prefix')
+                        action='store_true', default=False,
+                        help="overrun calculation with or without payback")
     parser.add_argument('-u', type=float, dest='utilization', default=0.4,
-                       help='system utilization (0.0,1.0)')
+                        help='system utilization (0.0,1.0)')
     parser.add_argument('-s', type=int, dest='systems', default=1,
-                       help='an integer for number of systems')
-    parser.add_argument('-r', '--resolution', type=int, dest='resolution', default=1000,
-                       help='simulation resolution')
+                        help='an integer for number of systems')
+    parser.add_argument('-r', '--resolution', type=int, dest='resolution',
+                        default=1000, help='simulation resolution')
     parser.add_argument('-mc', type=int, dest='minComps', default=1,
-                       help='minimal number of components per system')
+                        help='minimal number of components per system')
     parser.add_argument('-Mc', type=int, dest='maxComps', default=2,
-                       help='maximal number of components per system')
+                        help='maximal number of components per system')
     parser.add_argument('-mt', type=int, dest='minTasks', default=1,
-                       help='minimal number of tasks per component')
+                        help='minimal number of tasks per component')
     parser.add_argument('-Mt', type=int, dest='maxTasks', default=2,
-                       help='maximal number of tasks per component')
+                        help='maximal number of tasks per component')
     parser.add_argument('-ls', '--localsched', dest='localsched', default='EDF',
-                       help='component scheduler (local scheduler)')
+                        help='component scheduler (local scheduler)')
     parser.add_argument('-gs', '--globalsched', dest='globalsched', default='FPS',
-                       help='system scheduler (global scheduler)')
+                        help='system scheduler (global scheduler)')
     parser.add_argument('-R', type=float, dest='resources', default=0.4,
-                       help='probability that task has shared resource (0.0,1.0)')
+                        help='probability that task has shared resource (0.0,1.0)')
 
     parser.add_argument('-mcp', type=float, dest='minCompPeriod', default=0.010,
-                       help='minimal component period')
+                        help='minimal component period')
     parser.add_argument('-Mcp', type=float, dest='maxCompPeriod', default=0.080,
-                       help='maximal component period')
+                        help='maximal component period')
     parser.add_argument('-mtp', type=float, dest='minTaskPeriod', default=0.020,
-                       help='minimal task period')
+                        help='minimal task period')
     parser.add_argument('-Mtp', type=float, dest='maxTaskPeriod', default=0.120,
-                       help='maximal task period')
+                        help='maximal task period')
+
+    parser.add_argument('--reachability',
+                        action='store_true', default=False,
+                        help="print reachability results")
 
     args = parser.parse_args()
-    rand_system(**vars(args))
+
+    def generate_systems():
+        for s in range(args.systems):
+            for i in range(1000):
+                system = rand_system(**vars(args))
+                if system.schedulability and all(map(lambda c: c.schedulability, system.components)):
+                    yield system
+                    break
+                if args.verbose:
+                    print i, ' ...'
+
+    systems = list(generate_systems())
+
+    print '<root>\n' + '\n'.join(map(str, systems)) + '\n</root>'
+
+    if args.reachability:
+        from eelap.analysis import reachability
+        map(lambda s: reachability(s, time=1000), systems)
+

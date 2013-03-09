@@ -30,9 +30,9 @@ for certain cases. Please be aware of _FIXME_ parts in the cource code.
 
 Numpy, lxml, and argparse are recommended for full functionality.
 `pip` or `easy_install` will install them for you if you do
-`pip install eelap`. We encourage you to use a virtualenv.
-Check the docs for complete installation and usage
-instructions.
+`pip install git+git://github.com/jirikuncar/eelap.git`.
+We encourage you to use a virtualenv. Check the docs for complete installation
+and usage instructions.
 
 ## Where are the docs?
 

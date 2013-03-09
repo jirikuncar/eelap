@@ -23,11 +23,11 @@ import copy
 import argparse
 import numpy as np
 from lxml import objectify
-from .__init__ import Task, Component, System
+from eelap import Task, Component, System
 
 
-def reachability(s, verbose=2):
-    ls = tuple(s.generate_paths(0, 0, cargs.time))
+def reachability(s, time=300, verbose=2):
+    ls = tuple(s.generate_paths(0, 0, time))
     tp_reach = s.TP_reach(ls)
     if verbose > -1:
         print 'Data path:', s.path
@@ -136,7 +136,7 @@ if __name__ == "__main__":
 
     def print_main():
         system = create_system_from_xml(xml_sys)
-        reachability(system, verbose=0)
+        reachability(system, time=cargs.time, verbose=0)
 
     def print_system():
         for cperiod in range(10, 100):
@@ -160,7 +160,7 @@ if __name__ == "__main__":
             #if not ss:
             #    continue
             print 'D', cperiod
-            reachability(system, verbose=2)
+            reachability(system, time=crags.time, verbose=2)
             del system
 
     def add_server(system, P=20, Pt=80, B=3.0, Bt=1.0):
