@@ -7,12 +7,16 @@ install_requires = [
     'numpy',
     'lxml',
     'sphinxcontrib-bibtex',
+    'sphinxcontrib-programoutput',
     # -*- Extra requirements: -*-
 ]
 
-entry_points = """
-    # -*- Entry points: -*-
-    """
+entry_points = {
+    'console_scipts': [
+        'eelap = eelap.generator:main'
+    ]
+}
+
 
 classifiers = [
     'Programming Language :: Python',
@@ -27,7 +31,7 @@ with open("CHANGES.txt") as f:
     CHANGES = f.read()
 
 setup(name='eelap',
-      version='0.3',
+      version='0.3.1',
       packages=find_packages(),
       description=("End-to-End Latency Analysis for ProCom"),
       long_description=README + '\n' + CHANGES,

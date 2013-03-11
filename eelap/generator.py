@@ -120,7 +120,7 @@ def rand_system(minTasks=1,
     return system
 
 
-if __name__ == "__main__":
+def main():
 
     parser = argparse.ArgumentParser(description='System generator for EELAP.',
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
@@ -242,3 +242,7 @@ if __name__ == "__main__":
     if args.reachability:
         from eelap.analysis import reachability
         map(lambda s: reachability(s, time=1000), systems)
+
+
+if __name__ == "__main__":
+    main()
