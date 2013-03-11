@@ -26,6 +26,43 @@ from lxml import objectify
 from eelap import Task, Component, System
 
 
+def add_server(system, component_name="System Server", component_period=0.010,
+               component_priority=None, component_budget=0.002,
+               tasks=None):
+    system_copy = copy.deepcopy(system)
+
+    ## set compoennt priority to max if it is not specified
+    if component_priority is None:
+        component_priority = max(map(lambda c: c.priority,
+                                     system.components)) + 1
+
+    ## get some reasonable default tasks ...
+    if tasks is None:
+        tasks = [
+            dict(name='sender'),
+            dict(name='receiver'),
+        ]
+
+    tasks = map(lambda d: Task(name=d.get('name'),
+                               period=float(d.get('period', 0.020))*system.resolution,
+                               priority=int(d.get('priority', 2)),
+                               exetime=float(d.get('exefile', 0.001))*system.resolution)
+                if not isinstance(d, Task) else d, tasks)
+
+    # name, period, priority, budget
+    component = Component(component_name, component_period*system.resolution,
+                          component_priority,
+                          component_budget*system.resolution, tasks=tasks)
+
+    system_copy.addComponent(component)
+    inner_path = list(range(len(system.tasks), len(system.tasks) + len(tasks)))
+    path = list(range(0, len(system.tasks))) if system.path is None \
+        else system.path
+    system_copy.path = sum([[i] + inner_path for i in path[:-1]], []) + \
+        [path[-1]]
+    return system_copy
+
+
 def reachability(s, time=300, verbose=2):
     ls = tuple(s.generate_paths(0, 0, time))
     tp_reach = s.TP_reach(ls)
@@ -163,28 +200,10 @@ if __name__ == "__main__":
             reachability(system, time=crags.time, verbose=2)
             del system
 
-    def add_server(system, P=20, Pt=80, B=3.0, Bt=1.0):
-        ss = copy.deepcopy(system)
-        t = len(ss.tasks)
-        t1 = t
-        t2 = t + 1
-        component = Component('System server', P, 99, B)
-        component.addTask(Task('sender', Pt, 2, Bt))
-        component.addTask(Task('receiver', Pt, 1, Bt))
-        ss.addComponent(component)
-        ss.path = sum([[i, t1, t2] for i in system.path[:-1]], []) + \
-                    [system.path[-1]]
-        return ss
-
     def print_added_server():
         """Adds new comunication server."""
         system = create_system_from_xml(xml_sys)
-        P = 20
-        Pt = 80
-        B = 3.0
-        Bt = 1.0
-
-        system = add_server(system, P, Pt, B, Bt)
+        system = add_server(system)
         reachability(system, verbose=0)
 
     def draw_cairo(s, name='tasks.pdf'):

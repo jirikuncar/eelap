@@ -21,11 +21,8 @@
 
 import argparse
 import random
-import sys
 from eelap import Task, Component, System
-from lxml.builder import E
-
-## FIXME: improve balance of Component and Task utilizations
+from eelap.analysis import add_server
 
 
 def rand_system(minTasks=1,
@@ -44,6 +41,7 @@ def rand_system(minTasks=1,
                 payback=False,
                 verbose=False,
                 **kargs):
+    ## FIXME: improve balance of Component and Task utilizations
 
     def rand_comp(component, utils):
         tasks = random.randint(minTasks, maxTasks)
@@ -166,15 +164,74 @@ if __name__ == "__main__":
                         action='store_true', default=False,
                         help="print reachability results")
 
+    cs_group = parser.add_argument_group('Communication Server')
+
+    cs_group.add_argument('--with-communication-server',
+                          dest='communication_server',
+                          action='store_true', default=False,
+                          help="add communication server to copy of each system")
+
+    cs_group.add_argument('-csP', '--communication-server-period',
+                          dest='communication_server_period',
+                          type=float, default=0.010, metavar='t',
+                          help="communication server period")
+
+    cs_group.add_argument('-csQ', '--communication-server-budget',
+                          dest='communication_server_budget',
+                          type=float, default=0.002, metavar='t',
+                          help="communication server budget")
+
+    cs_group.add_argument('-csp', '--communication-server-priority',
+                          dest='communication_server_priority',
+                          type=int, default=None, metavar='p',
+                          help="communication server priority - not specified (None) = highest")
+
+    cs_group.add_argument('-t', '--communication-server-tasks',
+                          dest='communication_server_tasks',
+                          nargs=4, action='append', metavar=('name', 'P', 'p', 'X'),
+                          help="component task definition")
+
+    parser.add_argument('--path', metavar='Ti', type=int, nargs='*',
+                        help='define indexes of tasks as a data flow path')
+
     args = parser.parse_args()
+
+    check_system = lambda system: system.schedulability and \
+        all(map(lambda c: c.schedulability, system.components))
+
+    make_task_from_list = lambda (name, P, p, X): dict(name=name,
+                                                       period=float(P),
+                                                       priority=int(p),
+                                                       exetime=float(X))
+
+    tasks = None
+    if args.communication_server_tasks:
+        tasks = map(make_task_from_list, args.communication_server_tasks)
 
     def generate_systems():
         for s in range(args.systems):
             for i in range(1000):
                 system = rand_system(**vars(args))
-                if system.schedulability and all(map(lambda c: c.schedulability, system.components)):
+                ## assign system data path
+                if args.path:
+                    system.path = args.path
+                ## add communication server to copy of the system
+                if args.communication_server:
+                    copy_system = add_server(
+                        system,
+                        component_period=args.communication_server_period,
+                        component_priority=args.communication_server_priority,
+                        component_budget=args.communication_server_budget,
+                        tasks=tasks)
+
+                ## check system and its copy if communication server is added
+                if check_system(system) and (not args.communication_server or
+                                             check_system(copy_system)):
                     yield system
+                    if args.communication_server:
+                        yield copy_system
                     break
+
                 if args.verbose:
                     print i, ' ...'
 
@@ -185,4 +242,3 @@ if __name__ == "__main__":
     if args.reachability:
         from eelap.analysis import reachability
         map(lambda s: reachability(s, time=1000), systems)
-

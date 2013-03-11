@@ -509,13 +509,16 @@ class Component(object):
     """
 
     def __init__(self, name, period, priority, budget, scheduler='EDF',
-                 payback=False):
+                 payback=False, tasks=None):
         self.name = name
         self.period = period
         self.priority = priority
         self.budget = budget
         self.scheduler = scheduler
         self.tasks = []
+        if tasks is not None:
+            for task in tasks:
+                self.addTask(task)
         self.payback = payback
         self.system = None
 
