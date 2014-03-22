@@ -27,4 +27,8 @@ System
    :members:
    :inherited-members:
 
+Command line
+^^^^^^^^^^^^
 
+.. automodule:: eelap.generator
+   :members:

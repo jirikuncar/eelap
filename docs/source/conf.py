@@ -35,7 +35,9 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
-    'sphinxcontrib.bibtex']
+    'sphinxcontrib.bibtex',
+    'sphinxcontrib.programoutput',
+    ]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -185,11 +187,11 @@ latex_elements = {
 'papersize': 'a4paper',
 
 # The font size ('10pt', '11pt' or '12pt').
-'pointsize': '12pt',
+'pointsize': '10pt',
 
 # Additional stuff for the LaTeX preamble.
 #'preamble': '',
-'preamble': '\usepackage{amsmath,amssymb,esvect,url}\n',
+'preamble': '\usepackage{amsmath,amssymb,esvect,url}\n\usepackage{listings}\n\lstset{breaklines=true}',
 }
 
 # Grouping the document tree into LaTeX files. List of tuples

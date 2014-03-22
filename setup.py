@@ -12,8 +12,8 @@ install_requires = [
 ]
 
 entry_points = {
-    'console_scipts': [
-        'eelap = eelap.generator:main'
+    'console_scripts': [
+        'eelap_generator = eelap.generator:main'
     ]
 }
 

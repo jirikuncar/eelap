@@ -19,10 +19,13 @@
 
 """Generator of random systems for EELAP."""
 
+import sys
 import argparse
 import random
 from eelap import Task, Component, System
 from eelap.analysis import add_server
+
+__all__ = ['main', 'rand_system']
 
 
 def rand_system(minTasks=1,
@@ -121,44 +124,60 @@ def rand_system(minTasks=1,
 
 
 def main():
+    """
+    EELAP generator command line interface.
 
+    .. program-output:: eelap_generator -h
+
+    """
+    # python -m 'eelap.generator' -h | fold -w 60
     parser = argparse.ArgumentParser(description='System generator for EELAP.',
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+
     parser.add_argument('-v', '--verbose',
                         action='store_true', default=False,
                         help="verbose output")
-    parser.add_argument('-P', '--payback',
-                        action='store_true', default=False,
-                        help="overrun calculation with or without payback")
-    parser.add_argument('-u', type=float, dest='utilization', default=0.4,
-                        help='system utilization (0.0,1.0)')
-    parser.add_argument('-s', type=int, dest='systems', default=1,
-                        help='an integer for number of systems')
-    parser.add_argument('-r', '--resolution', type=int, dest='resolution',
-                        default=1000, help='simulation resolution')
-    parser.add_argument('-mc', type=int, dest='minComps', default=1,
-                        help='minimal number of components per system')
-    parser.add_argument('-Mc', type=int, dest='maxComps', default=2,
-                        help='maximal number of components per system')
-    parser.add_argument('-mt', type=int, dest='minTasks', default=1,
-                        help='minimal number of tasks per component')
-    parser.add_argument('-Mt', type=int, dest='maxTasks', default=2,
-                        help='maximal number of tasks per component')
-    parser.add_argument('-ls', '--localsched', dest='localsched', default='EDF',
-                        help='component scheduler (local scheduler)')
-    parser.add_argument('-gs', '--globalsched', dest='globalsched', default='FPS',
-                        help='system scheduler (global scheduler)')
-    parser.add_argument('-R', type=float, dest='resources', default=0.4,
-                        help='probability that task has shared resource (0.0,1.0)')
 
-    parser.add_argument('-mcp', type=float, dest='minCompPeriod', default=0.010,
-                        help='minimal component period')
-    parser.add_argument('-Mcp', type=float, dest='maxCompPeriod', default=0.080,
-                        help='maximal component period')
-    parser.add_argument('-mtp', type=float, dest='minTaskPeriod', default=0.020,
-                        help='minimal task period')
-    parser.add_argument('-Mtp', type=float, dest='maxTaskPeriod', default=0.120,
-                        help='maximal task period')
+    subparsers = parser.add_subparsers(help='Actions', dest='action')
+    import_parser = subparsers.add_parser('import',
+                                          help='Import existing system file')
+    import_parser.add_argument('input', nargs='?', type=argparse.FileType('r'),
+                               default=sys.stdin)
+
+    generator_group = subparsers.add_parser('generate',
+                                            help='Random system generator options')
+    generator_group.add_argument('-P', '--payback',
+                                 action='store_true', default=False,
+                                 help="overrun calculation with or without payback")
+    generator_group.add_argument('-u', type=float, dest='utilization', default=0.4,
+                                 help='system utilization (0.0,1.0)')
+    generator_group.add_argument('-s', type=int, dest='systems', default=1,
+                                 help='an integer for number of systems')
+    generator_group.add_argument('-r', '--resolution', type=int, dest='resolution',
+                                 default=1000, help='simulation resolution')
+    generator_group.add_argument('-mc', type=int, dest='minComps', default=1,
+                                 help='minimal number of components per system')
+    generator_group.add_argument('-Mc', type=int, dest='maxComps', default=2,
+                                 help='maximal number of components per system')
+    generator_group.add_argument('-mt', type=int, dest='minTasks', default=1,
+                                 help='minimal number of tasks per component')
+    generator_group.add_argument('-Mt', type=int, dest='maxTasks', default=2,
+                                 help='maximal number of tasks per component')
+    generator_group.add_argument('-ls', '--localsched', dest='localsched', default='EDF',
+                                 help='component scheduler (local scheduler)')
+    generator_group.add_argument('-gs', '--globalsched', dest='globalsched', default='FPS',
+                                 help='system scheduler (global scheduler)')
+    generator_group.add_argument('-R', type=float, dest='resources', default=0.4,
+                                 help='probability that task has shared resource (0.0,1.0)')
+
+    generator_group.add_argument('-mcp', type=float, dest='minCompPeriod', default=0.010,
+                                 help='minimal component period')
+    generator_group.add_argument('-Mcp', type=float, dest='maxCompPeriod', default=0.080,
+                                 help='maximal component period')
+    generator_group.add_argument('-mtp', type=float, dest='minTaskPeriod', default=0.020,
+                                 help='minimal task period')
+    generator_group.add_argument('-Mtp', type=float, dest='maxTaskPeriod', default=0.120,
+                                 help='maximal task period')
 
     parser.add_argument('--reachability',
                         action='store_true', default=False,
@@ -235,13 +254,42 @@ def main():
                 if args.verbose:
                     print i, ' ...'
 
-    systems = list(generate_systems())
+    def create_system_from_xml(input_file):
+        """
+        Reads system configuration from param:`xml_system`
+        and returns cls:`System` instances.
+        """
+        from lxml import objectify
+        root = objectify.fromstring(input_file.read())
+        for s in root.iterfind('system'):
+            system = System(**dict(s.items()))
+            for c in s.iterfind('component'):
+                component = Component(**dict(c.items()))
+                for t in c.iterfind('task'):
+                    task = Task(**dict(t.items()))
+                    component.addTask(task)
+                system.addComponent(component)
+                if args.path:
+                    system.path = args.path
+            yield system
+            if args.communication_server:
+                yield add_server(
+                    system,
+                    component_period=args.communication_server_period,
+                    component_priority=args.communication_server_priority,
+                    component_budget=args.communication_server_budget,
+                    tasks=tasks)
+
+    if args.action == 'generate':
+        systems = list(generate_systems())
+    else:
+        systems = list(create_system_from_xml(args.input))
 
     print '<root>\n' + '\n'.join(map(str, systems)) + '\n</root>'
 
     if args.reachability:
         from eelap.analysis import reachability
-        map(lambda s: reachability(s, time=1000), systems)
+        map(lambda s: reachability(s, time=360), systems)
 
 
 if __name__ == "__main__":

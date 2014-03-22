@@ -41,13 +41,13 @@ class System(object):
         if components is not None:
             for c in components:
                 self.addComponent(c)
-        self.resolution = resolution
+        self.resolution = int(resolution)
         self.scheduler = scheduler
         self.path = None
 
     def __str__(self):
-        return '<system scheduler="%s" resolution="%s">\n\t%s\n</system>' % (
-            self.scheduler, self.resolution,
+        return '<system scheduler="%s" resolution="%d">\n\t%s\n</system>' % (
+            self.scheduler, int(self.resolution),
             '\n\t'.join(map(str, self.components)))
 
     def __deepcopy__(self, memo):
@@ -511,9 +511,9 @@ class Component(object):
     def __init__(self, name, period, priority, budget, scheduler='EDF',
                  payback=False, tasks=None):
         self.name = name
-        self.period = period
-        self.priority = priority
-        self.budget = budget
+        self.period = int(period)
+        self.priority = int(priority)
+        self.budget = float(budget)
         self.scheduler = scheduler
         self.tasks = []
         if tasks is not None:
@@ -523,8 +523,8 @@ class Component(object):
         self.system = None
 
     def __str__(self):
-        return '<component name="%s" period="%f" priority="%d" budget="%f">\n\t\t%s\n\t</component>' % \
-            (self.name, self.period, self.priority, self.budget,
+        return '<component name="%s" period="%d" priority="%d" budget="%f">\n\t\t%s\n\t</component>' % \
+            (self.name, int(self.period), int(self.priority), float(self.budget),
              '\n\t\t'.join(map(str, self.tasks)))
 
     def __deepcopy__(self, memo):
@@ -535,7 +535,7 @@ class Component(object):
             copy.copy(self.budget),
             copy.copy(self.scheduler),
             copy.copy(self.payback)
-            )
+        )
         memo[self] = dup
         for t in self.tasks:
             dup.addTask(copy.copy(t))
@@ -745,17 +745,18 @@ class Component(object):
 class Task(object):
     """System task."""
 
-    def __init__(self, name, period, priority, exetime):
+    def __init__(self, name, period, priority, exetime, start=0):
         self.name = name
         self.period = int(period)
-        self.priority = priority
-        self.exetime = exetime
+        self.priority = int(priority)
+        self.exetime = float(exetime)
         self.component = None
-        self.start = 0
+        self.start = int(start)
 
     def __repr__(self):
-        return '<task name="%s" priority="%d" exetime="%f" period="%f" />' % \
-            (self.name, self.priority, self.exetime, self.period)
+        return '<task name="%s" priority="%d" exetime="%f" period="%d" start="%d"/>' % \
+            (self.name, int(self.priority), float(self.exetime),
+             int(self.period), int(self.start))
 
     def __str__(self):
         return self.__repr__()
