@@ -1,0 +1,173 @@
+<root>
+<system scheduler="FPS" resolution="1000">
+	<component name="Sensor" period="25" priority="3" budget="10.000000">
+		<task name="T11" priority="2" exetime="2.000000" period="40" start="0"/>
+	</component>
+	<component name="Computation" period="40" priority="2" budget="4.000000">
+		<task name="T12" priority="2" exetime="2.000000" period="80" start="0"/>
+		<task name="T22" priority="1" exetime="4.000000" period="120" start="0"/>
+	</component>
+	<component name="Actuator" period="10" priority="1" budget="2.000000">
+		<task name="T13" priority="2" exetime="2.000000" period="20" start="0"/>
+	</component>
+</system>
+<system scheduler="FPS" resolution="1000">
+	<component name="Sensor" period="25" priority="3" budget="10.000000">
+		<task name="T11" priority="2" exetime="2.000000" period="40" start="0"/>
+	</component>
+	<component name="Computation" period="40" priority="2" budget="4.000000">
+		<task name="T12" priority="2" exetime="2.000000" period="80" start="0"/>
+		<task name="T22" priority="1" exetime="4.000000" period="120" start="0"/>
+	</component>
+	<component name="Actuator" period="10" priority="1" budget="2.000000">
+		<task name="T13" priority="2" exetime="2.000000" period="20" start="0"/>
+	</component>
+	<component name="System Server" period="12" priority="4" budget="3.000000">
+		<task name="s" priority="2" exetime="1.000000" period="20" start="0"/>
+		<task name="r" priority="1" exetime="1.000000" period="20" start="0"/>
+	</component>
+</system>
+</root>
+Data path: [0, 1, 3]
+Tasks in data path [<task name="T11" priority="2" exetime="2.000000" period="40" start="0"/>, <task name="T12" priority="2" exetime="2.000000" period="80" start="0"/>, <task name="T13" priority="2" exetime="2.000000" period="20" start="0"/>]
+Number or path: 200
+Reach paths:
+(1, 1, 8)
+(1, 1, 9)
+(1, 1, 10)
+(1, 1, 11)
+(3, 2, 12)
+(3, 2, 13)
+(3, 2, 14)
+(3, 2, 15)
+(5, 3, 16)
+(5, 3, 17)
+First paths:
+(1, 1, 8)
+(3, 2, 12)
+(5, 3, 16)
+First-to-First delay: 218.0
+First-to-Last delay: 278.0
+Last-to-First delay: 138.0
+Last-to-Last delay: 198.0
+FF [((1, 1, 8), 178.0), ((1, 1, 9), 198.0), ((1, 1, 10), 218.0), ((1, 1, 11), 238.0), ((3, 2, 12), 178.0), ((3, 2, 13), 198.0), ((3, 2, 14), 218.0), ((3, 2, 15), 238.0), ((5, 3, 16), 178.0), ((5, 3, 17), 198.0)]
+FL [((1, 1, 8), 178.0), ((1, 1, 9), 198.0), ((1, 1, 10), 218.0), ((1, 1, 11), 238.0), ((3, 2, 12), 178.0), ((3, 2, 13), 198.0), ((3, 2, 14), 218.0), ((3, 2, 15), 238.0), ((5, 3, 16), 178.0), ((5, 3, 17), 198.0)]
+LF [((1, 1, 8), 138.0), ((1, 1, 9), 158.0), ((1, 1, 10), 178.0), ((1, 1, 11), 198.0), ((3, 2, 12), 138.0), ((3, 2, 13), 158.0), ((3, 2, 14), 178.0), ((3, 2, 15), 198.0), ((5, 3, 16), 138.0), ((5, 3, 17), 158.0)]
+LL [((1, 1, 8), 138.0), ((1, 1, 9), 158.0), ((1, 1, 10), 178.0), ((1, 1, 11), 198.0), ((3, 2, 12), 138.0), ((3, 2, 13), 158.0), ((3, 2, 14), 178.0), ((3, 2, 15), 198.0), ((5, 3, 16), 138.0), ((5, 3, 17), 158.0)]
+Path (1, 1, 8)
+T11 :  R R R R 0 0 0 0 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+T12 :  R R R R R R R R 0 0 0 0 0 0 0 0 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+T22 :  R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+T13 :  R R R R R R R R R R R R R R R R 0 0 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+Path (1, 1, 9)
+T11 :  R R R R 1 1 1 1 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+T12 :  R R R R R R R R 1 1 1 1 1 1 1 1 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+T22 :  R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+T13 :  R R R R R R R R R R R R R R R R R R 1 1 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+Path (1, 1, 10)
+T11 :  R R R R 2 2 2 2 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+T12 :  R R R R R R R R 2 2 2 2 2 2 2 2 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+T22 :  R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+T13 :  R R R R R R R R R R R R R R R R R R R R 2 2 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+Path (1, 1, 11)
+T11 :  R R R R 3 3 3 3 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+T12 :  R R R R R R R R 3 3 3 3 3 3 3 3 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+T22 :  R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+T13 :  R R R R R R R R R R R R R R R R R R R R R R 3 3 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+Path (3, 2, 12)
+T11 :  R R R R R R R R R R R R 4 4 4 4 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+T12 :  R R R R R R R R R R R R R R R R 4 4 4 4 4 4 4 4 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+T22 :  R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+T13 :  R R R R R R R R R R R R R R R R R R R R R R R R 4 4 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+Path (3, 2, 13)
+T11 :  R R R R R R R R R R R R 5 5 5 5 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+T12 :  R R R R R R R R R R R R R R R R 5 5 5 5 5 5 5 5 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+T22 :  R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+T13 :  R R R R R R R R R R R R R R R R R R R R R R R R R R 5 5 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+Path (3, 2, 14)
+T11 :  R R R R R R R R R R R R 6 6 6 6 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+T12 :  R R R R R R R R R R R R R R R R 6 6 6 6 6 6 6 6 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+T22 :  R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+T13 :  R R R R R R R R R R R R R R R R R R R R R R R R R R R R 6 6 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+Utilizations: 0.7 = [0.4, 0.1, 0.2]
+Local schedulability: [True, True, True]
+Global schedulability: True
+Tasks (period, response time): [(40, 32.0), (80, 74.0), (120, 116.0), (20, 18.0)]
+Data path: [0, 4, 5, 1, 4, 5, 3]
+Tasks in data path [<task name="T11" priority="2" exetime="2.000000" period="40" start="0"/>, <task name="s" priority="2" exetime="1.000000" period="20" start="0"/>, <task name="r" priority="1" exetime="1.000000" period="20" start="0"/>, <task name="T12" priority="2" exetime="2.000000" period="80" start="0"/>, <task name="s" priority="2" exetime="1.000000" period="20" start="0"/>, <task name="r" priority="1" exetime="1.000000" period="20" start="0"/>, <task name="T13" priority="2" exetime="2.000000" period="20" start="0"/>]
+Number or path: 123544
+Reach paths:
+(0, 3, 3, 1, 8, 8, 9)
+(0, 3, 3, 1, 9, 9, 10)
+(0, 3, 3, 1, 10, 10, 11)
+(0, 3, 3, 1, 11, 11, 12)
+(2, 7, 7, 2, 12, 12, 13)
+(2, 7, 7, 2, 13, 13, 14)
+(2, 7, 7, 2, 14, 14, 15)
+(2, 7, 7, 2, 15, 15, 16)
+(4, 11, 11, 3, 16, 16, 17)
+First paths:
+(0, 3, 3, 1, 8, 8, 9)
+(2, 7, 7, 2, 12, 12, 13)
+(4, 11, 11, 3, 16, 16, 17)
+First-to-First delay: 278.0
+First-to-Last delay: 338.0
+Last-to-First delay: 198.0
+Last-to-Last delay: 258.0
+FF [((0, 3, 3, 1, 8, 8, 9), 198.0), ((0, 3, 3, 1, 9, 9, 10), 218.0), ((0, 3, 3, 1, 10, 10, 11), 238.0), ((0, 3, 3, 1, 11, 11, 12), 258.0), ((2, 7, 7, 2, 12, 12, 13), 238.0), ((2, 7, 7, 2, 13, 13, 14), 258.0), ((2, 7, 7, 2, 14, 14, 15), 278.0), ((2, 7, 7, 2, 15, 15, 16), 298.0), ((4, 11, 11, 3, 16, 16, 17), 238.0)]
+FL [((0, 3, 3, 1, 8, 8, 9), 198.0), ((0, 3, 3, 1, 9, 9, 10), 218.0), ((0, 3, 3, 1, 10, 10, 11), 238.0), ((0, 3, 3, 1, 11, 11, 12), 258.0), ((2, 7, 7, 2, 12, 12, 13), 238.0), ((2, 7, 7, 2, 13, 13, 14), 258.0), ((2, 7, 7, 2, 14, 14, 15), 278.0), ((2, 7, 7, 2, 15, 15, 16), 298.0), ((4, 11, 11, 3, 16, 16, 17), 238.0)]
+LF [((0, 3, 3, 1, 8, 8, 9), 198.0), ((0, 3, 3, 1, 9, 9, 10), 218.0), ((0, 3, 3, 1, 10, 10, 11), 238.0), ((0, 3, 3, 1, 11, 11, 12), 258.0), ((2, 7, 7, 2, 12, 12, 13), 198.0), ((2, 7, 7, 2, 13, 13, 14), 218.0), ((2, 7, 7, 2, 14, 14, 15), 238.0), ((2, 7, 7, 2, 15, 15, 16), 258.0), ((4, 11, 11, 3, 16, 16, 17), 198.0)]
+LL [((0, 3, 3, 1, 8, 8, 9), 198.0), ((0, 3, 3, 1, 9, 9, 10), 218.0), ((0, 3, 3, 1, 10, 10, 11), 238.0), ((0, 3, 3, 1, 11, 11, 12), 258.0), ((2, 7, 7, 2, 12, 12, 13), 198.0), ((2, 7, 7, 2, 13, 13, 14), 218.0), ((2, 7, 7, 2, 14, 14, 15), 238.0), ((2, 7, 7, 2, 15, 15, 16), 258.0), ((4, 11, 11, 3, 16, 16, 17), 198.0)]
+Path (0, 3, 3, 1, 8, 8, 9)
+T11 :  0 0 0 0 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+T12 :  R R R R R R R R 0 0 0 0 0 0 0 0 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+T22 :  R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+T13 :  R R R R R R R R R R R R R R R R R R 0 0 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+s :  R R R R R R 0 0 R R R R R R R R 0 0 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+r :  R R R R R R 0 0 R R R R R R R R 0 0 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+Path (0, 3, 3, 1, 9, 9, 10)
+T11 :  1 1 1 1 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+T12 :  R R R R R R R R 1 1 1 1 1 1 1 1 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+T22 :  R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+T13 :  R R R R R R R R R R R R R R R R R R R R 1 1 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+s :  R R R R R R 1 1 R R R R R R R R R R 1 1 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+r :  R R R R R R 1 1 R R R R R R R R R R 1 1 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+Path (0, 3, 3, 1, 10, 10, 11)
+T11 :  2 2 2 2 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+T12 :  R R R R R R R R 2 2 2 2 2 2 2 2 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+T22 :  R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+T13 :  R R R R R R R R R R R R R R R R R R R R R R 2 2 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+s :  R R R R R R 2 2 R R R R R R R R R R R R 2 2 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+r :  R R R R R R 2 2 R R R R R R R R R R R R 2 2 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+Path (0, 3, 3, 1, 11, 11, 12)
+T11 :  3 3 3 3 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+T12 :  R R R R R R R R 3 3 3 3 3 3 3 3 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+T22 :  R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+T13 :  R R R R R R R R R R R R R R R R R R R R R R R R 3 3 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+s :  R R R R R R 3 3 R R R R R R R R R R R R R R 3 3 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+r :  R R R R R R 3 3 R R R R R R R R R R R R R R 3 3 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+Path (2, 7, 7, 2, 12, 12, 13)
+T11 :  R R R R R R R R 4 4 4 4 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+T12 :  R R R R R R R R R R R R R R R R 4 4 4 4 4 4 4 4 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+T22 :  R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+T13 :  R R R R R R R R R R R R R R R R R R R R R R R R R R 4 4 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+s :  R R R R R R R R R R R R R R 4 4 R R R R R R R R 4 4 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+r :  R R R R R R R R R R R R R R 4 4 R R R R R R R R 4 4 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+Path (2, 7, 7, 2, 13, 13, 14)
+T11 :  R R R R R R R R 5 5 5 5 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+T12 :  R R R R R R R R R R R R R R R R 5 5 5 5 5 5 5 5 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+T22 :  R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+T13 :  R R R R R R R R R R R R R R R R R R R R R R R R R R R R 5 5 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+s :  R R R R R R R R R R R R R R 5 5 R R R R R R R R R R 5 5 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+r :  R R R R R R R R R R R R R R 5 5 R R R R R R R R R R 5 5 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+Path (2, 7, 7, 2, 14, 14, 15)
+T11 :  R R R R R R R R 6 6 6 6 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+T12 :  R R R R R R R R R R R R R R R R 6 6 6 6 6 6 6 6 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+T22 :  R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+T13 :  R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R 6 6 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+s :  R R R R R R R R R R R R R R 6 6 R R R R R R R R R R R R 6 6 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+r :  R R R R R R R R R R R R R R 6 6 R R R R R R R R R R R R 6 6 R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R |
+Utilizations: 0.95 = [0.4, 0.1, 0.2, 0.25]
+Local schedulability: [True, True, True, True]
+Global schedulability: True
+Tasks (period, response time): [(40, 32.0), (80, 74.0), (120, 116.0), (20, 18.0), (20, 19.0), (20, 20.0)]

@@ -1,0 +1,20 @@
+<root>
+<system scheduler="FPS" resolution="1000">
+<!--
+	<component name="System" period="12" priority="7" budget="3">
+		<task name="sender" priority="2" exetime="1" period="20" start="0"/>
+		<task name="receiv" priority="1" exetime="1" period="20" start="0"/>
+	</component>
+-->
+	<component name="Sensor" period="25" priority="3" budget="10">
+		<task name="T11" priority="2" exetime="2" period="40" start="0"/>
+	</component>
+	<component name="Computation" period="40" priority="2" budget="4">
+		<task name="T12" priority="2" exetime="2" period="80" start="0"/>
+		<task name="T22" priority="1" exetime="4" period="120" start="0"/>
+	</component>
+	<component name="Actuator" period="10" priority="1" budget="2">
+		<task name="T13" priority="2" exetime="2" period="20" start="0"/>
+	</component>
+</system>
+</root>
